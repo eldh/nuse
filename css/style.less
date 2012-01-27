@@ -1,0 +1,84 @@
+@import 'base.less';
+
+@font-face {
+	font-family: 'Rokkitt';
+	src: url('./fonts/Rokkitt-Bold.ttf');
+}
+.transition {
+	-webkit-transition: all 0.3s linear;
+	-moz-transition: all 0.3s linear;
+	transition: all 0.3s linear;
+}
+
+body {
+	background-color: #fff;
+	font-family: 'Georgia';
+	letter-spacing: 1px;
+	text-shadow: 0 1px 0 #fff;
+	color: #333;
+	font-size: 1.125em;
+}
+
+a {
+	color: #333;
+	text-decoration: none;
+	.transition
+}
+a:hover {
+	color: #a00000;
+}
+h1 {
+	font-size: 4em;
+	margin-bottom: 0.25em;
+	margin-top: 0.25em;
+}
+
+#workspace{
+	float: left;
+	margin-top: 1em;
+}
+
+section {
+	display: block;
+	margin-left: 2em;
+	margin-bottom: 2em;
+	.section {
+		display: block;
+		width: 20em;
+		margin-right: 1em;
+		float: left;
+		line-height: 1.25em;
+		background-color: #fafafa;
+		padding: 1em;
+		border-left: 1px #333 solid;
+	}
+	.item {
+		display: block;
+		margin-bottom: 1em;		
+	}
+	a.small {
+		color: #666;
+		font-size: 0.875em;
+	}
+	a.small:hover {
+		color: #a00000;
+	}
+
+	h2 {
+		font-size: 1em;
+		font-weight: bold;
+		margin-bottom: 0.5em;
+		text-transform: capitalize;
+	}
+
+}
+
+nav {
+	float: left;
+	a{
+		text-transform: capitalize;
+	}
+	h1{
+		font-size: 1.5em;
+	}
+}
