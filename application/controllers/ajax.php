@@ -21,7 +21,7 @@ class Ajax extends CI_Controller {
 	{
 		global $data;
 		parent::__construct();
-		$this->load->model(array('Twingly_api','Svd_api','Gnews_api','Twitter_api', 'Bloggar_api'));
+		$this->load->model(array('Twingly_api','Gnews_api','Twitter_api', 'Bloggar_api', 'Boilerpipe_api'));
 	}
 
 	public function index()
@@ -30,17 +30,20 @@ class Ajax extends CI_Controller {
 		$this->load->view('welcome_message', $data);
 	}
 	
+	public function getarticle() {
+		echo json_encode($this->cache->model('Boilerpipe_api', 'getArticle', array($this->input->post('url')), 1200));
+	}
 	public function trends() {
 		echo json_encode($this->Twitter_api->getTrends());
 	}
 	public function mixedtweets($string, $page = 1) {
-		echo json_encode($this->Twitter_api->getMixedTweets($string));
+		echo json_encode($this->cache->model('Twitter_api', 'getMixedTweets', array($string), 120));
 	}
 	public function populartweets($string, $page = 1) {
-		echo json_encode($this->Twitter_api->getPopularTweets($string));
+		echo json_encode($this->cache->model('Twitter_api', 'getPopularTweets', array($string), 120));
 	}
 	public function recenttweets($string, $page = 1) {
-		echo json_encode($this->Twitter_api->getRecentTweets($string));
+		echo json_encode($this->cache->model('Twitter_api', 'getRecentTweets', array($string), 120));
 	}
 	public function refresh() {
 		$url = $this->input->post('url');
@@ -62,37 +65,42 @@ class Ajax extends CI_Controller {
 	public function topics1() {
 		echo json_encode($this->Bloggar_api->getTopics());
 	}
-	public function topics() {
-		$bt = $this->Bloggar_api->getTopics();
-		$gt = $this->Gnews_api->getTopics();
-		$tt = $this->Twitter_api->getTrends();
+	public function topics($max = 8) {
+		$blacklist = array(
+			'filip prpic',
+			'iphone',
+			'björn ranelid',
+			'melodifestivalen',
+			'fredrik reinfeldt',
+			'lchf',
+			'danny',
+			'mario draghi',
+			'stefan löfven',
+			'påskägg',
+			'påskmiddag',
+			'påsk',
+			'påskafton',
+			'påskhelgen',
+			'fra',
+			'karin enström',
+			'instagram'
+		);
+		$bt = $this->cache->model('Bloggar_api', 'getTopics', array(), 1200);
+		$gt = $this->cache->model('Twitter_api', 'getTrends', array(), 1200);
 		$topics = array();
-		foreach ($bt as &$b){
-			if (in_array($b, $tt) === true){
-				$topics[] = $b;
+		$j = 0;
+		while(sizeof($topics) < $max){
+			$two = $j * 2;
+			if(!in_array($bt[$two], $topics) && !in_array($bt[$two], $blacklist)){
+				$topics[] = $bt[$two];
 			}
-			if (in_array($b, $gt) === true){
-				$topics[] = $b;
+			if(!in_array($bt[$two + 1], $topics) && !in_array($bt[$two + 1], $blacklist)){
+				$topics[] = $bt[$two + 1];
 			}
-		}
-		foreach ($gt as &$g){
-			if (in_array($g, $tt) === true){
-				$topics[] = $g;
-			}
-		}
-		$limit = 8 - sizeof($topics);
-		for($j = 0; $j < $limit; $j++){
-			if(!in_array($gt[$j], $topics)){
+			if(!in_array($gt[$j], $topics) && !in_array($gt[$j], $blacklist)){
 				$topics[] = $gt[$j];
 			}
-			if(!in_array($bt[$j], $topics)){
-				$topics[] = $bt[$j];
-			}
-/*
-			if(!in_array($tt[$j], $topics)){
-				$topics[] = $tt[$j];
-			}
-*/
+			$j++;
 		}
 		echo json_encode($topics);
 	}

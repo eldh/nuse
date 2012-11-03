@@ -1,0 +1,92 @@
+@import 'reset.less';
+@import 'grid.less';
+
+
+//////////
+// GRID //
+//////////
+
+// Specify the number of columns and set column and gutter widths
+@columns: 12;
+@column-width: 25;
+@gutter-width: 50;
+@max-width: 1080px;
+@footerheight: 10em;
+
+// Remove the definition below for a pixel-based layout
+@total-width: 100%;
+
+
+////////////
+// LAYOUT //
+////////////
+
+// header
+header#top {
+	margin-bottom: 1em;
+	.content {
+		margin: 0 1em;		
+	}
+}
+
+// center the contents
+div.center {
+	max-width: @max-width;
+	margin: 0 auto;
+	overflow: hidden;
+}
+
+.topic.row {
+	.column(12);
+	.section {
+		.column(4);
+	}
+}
+
+html, body, #wrapper { height: 100%; }
+body > #wrapper { height: auto; min-height: 100%; }
+#content { padding-bottom: @footerheight; }
+
+#footer {
+ clear: both;
+ position: relative;
+ z-index: 10;
+ height: @footerheight;
+ margin-top: -@footerheight;
+ .content {
+ 	max-width: @max-width;
+ 	margin-top: 1em;
+ }
+}
+
+#wrapper {
+	padding-bottom: @footerheight;
+}
+
+#about{
+ 	max-width: @max-width / 2;
+
+}
+
+@media screen and (max-width: 720px) {
+	#maincolumn,
+	#sidebar {
+		.column(12);
+		margin-bottom: 1em;
+	}
+	.teaser {
+		.column(6);
+	}
+
+}
+@media screen and (max-width: 480px) {
+	#maincolumn,
+	#sidebar {
+		.column(12);
+		margin-bottom: 1em;
+	}
+	.teaser {
+		.column(12);
+	}
+
+}

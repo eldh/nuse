@@ -21,7 +21,7 @@ class Bloggar_api extends CI_Model{
 	function getBlogs($string){
 		$data=array();
 		$this->load->library('RSSParser', array('url' => 'http://www.twingly.com/search.rss?approved=True&lang=sv&tspan=w&q='.urlencode(utf8_encode(urldecode($string))), 'life' => 300));
-		$content = $this->rssparser->getFeed(8);
+		$content = $this->rssparser->getFeed(7);
 		foreach ($content as $i => $item){
 			$data[$i]['title'] = (string) $item['title'][0];
 			$data[$i]['url'] = (string) $item['link'][0];
@@ -36,7 +36,7 @@ class Bloggar_api extends CI_Model{
 	}
 
 	function getTopics(){
-		$url = "http://feeds.feedburner.com/bloggar-aktuellt";
+		$url = "http://feeds.feedburner.com/knuff-ord";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_POST, 0);

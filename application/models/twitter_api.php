@@ -36,7 +36,34 @@ class Twitter_api extends CI_Model{
 		$byt = array ( "Å", "Ä", "Ö", "å", "ä", "ö" );
 		$med = array ( "A", "A", "O", "a", "a", "o" );
 		$string = str_replace($byt,$med,utf8_encode(urldecode($string)));
-		$content = 	$this->_makeCall('http://search.twitter.com/search.json?q='.urlencode($string).'&lang=sv&rpp=6&result_type=mixed');
+		$content = 	$this->_makeCall('http://search.twitter.com/search.json?q='.urlencode($string).'&lang=sv&rpp=10&result_type=mixed');
+		$data = array();
+		$reserves = array();
+		$counter = 0;
+		foreach($content['results'] as $tweet){
+			if (strpos($tweet['text'], "RT") === 0){
+				//Leave it
+			}
+			else if($tweet['metadata']['result_type'] == "recent"){
+				$reserves[] = $tweet;
+			}
+			else if ($counter > 4){
+				break;
+			}
+			else { //Keep it
+				$data[] = $tweet;
+				$counter++;
+			}
+		}
+		$content['count'] = $counter;
+		$i = 0;
+    	while ($counter < 4){
+    		$data[] = $reserves[$i];
+    		$i++;
+    		$counter++;
+    	}
+		$content['results'] = $data;
+		$content['reserves'] = $reserves;
 		return $this->fix($content);
 	}
 	
@@ -65,6 +92,10 @@ class Twitter_api extends CI_Model{
 		return $in;
 	}
 	
+	private function StartsWith($haystack, $needle){
+	    return strpos($haystack, $needle) === 0;
+	}
+	
 	private function fixUrls($string){
             $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
             preg_match_all($reg_exUrl, $string, $matches);
@@ -72,7 +103,7 @@ class Twitter_api extends CI_Model{
             foreach($matches[0] as $pattern){
                 if(!array_key_exists($pattern, $usedPatterns)){
                     $usedPatterns[$pattern]=true;
-                    $string = str_replace ($pattern, "<a href=".$pattern." rel='nofollow'>{$pattern}</a> ", $string);
+                    $string = str_replace ($pattern, "<a href=".$pattern." rel='nofollow' target='_blank'>{$pattern}</a> ", $string);
                 }
             }
             return $string;

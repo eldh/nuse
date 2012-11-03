@@ -1,4 +1,5 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+ini_set("allow_url_fopen", 1);
 
 /*
 * This class is written based entirely on the work found below
@@ -85,9 +86,17 @@ class RSSParser
     }
 
 
+/*
     //Parse the document
     $rawFeed = file_get_contents($this->feed_uri);
-    $this->xml_to_object($rawFeed);
+*/
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_POST, 0);
+		curl_setopt($curl, CURLOPT_URL, $this->feed_uri);
+		$rawFeed = curl_exec($curl);
+		curl_close ($curl);
+    	$this->xml_to_object($rawFeed);
 
     //Do we need to write the cache file?
     if ($this->write_cache_flag)

@@ -7,16 +7,22 @@ class Gnews_api extends CI_Model{
 		parent::__construct();
 	}
 
-	static $baseURI = "http://news.google.com/news?hl=sv_se&ned=sv_se&ie=UTF-8&output=rss&q=";
+	static $baseURI = "http://news.google.com/news?hl=sv_se&ned=sv_se&ie=UTF-8&output=rss";
 		
-	function getNews($string){
+	function getNews($string = null, $count = 7){
 		$data=array();
-		$this->load->library('RSSParser', array('url' => Gnews_api::$baseURI.urlencode(utf8_encode(urldecode($string))), 'life' => 300));
-		$content = $this->rssparser->getFeed(8);
+		
+		$url = Gnews_api::$baseURI;
+		if ($string != null){
+			$url = $url.'&q='.urlencode(utf8_encode(urldecode($string)));
+		}
+		$this->load->library('RSSParser', array('url' => $url, 'life' => 300));
+		$content = $this->rssparser->getFeed($count);
 		foreach ($content as $i => $item){
 			$data[$i]['title'] = explode(' - ', $item['title'][0].'');
 			preg_match('/url=(.*)/',$item['link'],$match);
 			$data[$i]['url'] = $match[1];
+			$data[$i]['teaser'] = strip_tags($item['description'], '<p><br><br/>');
 			
 		}
 		return $data;
