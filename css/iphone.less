@@ -13,19 +13,29 @@ body{
 }
 .topic.row{
 	width: auto;
-	display: block;
+    margin: 0;
+    display: none;
 	.section{
 		width: 100%;
 		margin: 0;
     }
    	.next{
-   		display: none;
+   		position: absolute;
+   		margin-top: -1.3em;
+   		text-align: right;
+   		width: auto;
+   		font-size: 2em;
+   		margin-right: 0.25em;
+   		.rotate(0);
    	}
+	.headericon{
+		background-image: url('../img/icons2x.png'); /*this needs fixing*/
+	}
+}
+.topic.row:first-child{
+	display: block;
 }
 nav{
-	position: fixed;
-	margin-top: 0;
-	float: none;
 	background-color: @grayDark;
 	h1{
 		font-size: 1.5em;
@@ -36,62 +46,52 @@ nav{
 		padding: 0;
 		margin: 0 0 0 2em;
 	}
-	#addtopic{
-		margin: 0 0em;
-		font-size: 1em;
-		border-bottom: 1px @grayDark - 30 solid;
+	.mobnav{
+		font-family: Arial;
+		font-size: 2em;
+		padding: 0 20px;
+		a{
+			display: block;
+			color: #fff;
+			margin-top: -2px;
+		}
+	}
+	.next{
+		position: fixed;
+		right: 0;
+	}
+	form {
+		position: fixed;
+		width: 100%;
 	}
 	#newtopic{
-		font-size: 1em;
-		display: block;
 		text-align: left;
-		box-sizing: border-box;
-		width: 100%;
-		padding: 1em 0.5em;
-		float: none;
-		background-color: @grayDark;
-		border-radius: 0;
 	}
 	#newtopic:focus{
-		background-color: @grayDark - 30;
 		width: 100%;
+		background-color: @grayDark;
 	}
-	.nav{
-		top: -200px;
-/* 		display: none; */
-	}
-	li{
-		display: block;
-		width: 100%;
-		float: none;
-		border-top: 1px @grayDark + 30 solid;
-		border-bottom: 1px @grayDark - 30 solid;
-	}
-	li:last-child{
-		border-bottom: none;
-	}
-	#menuhandle{
-		padding: 0 1em;
-		text-align: center;
-		border-top: 1px @gray + 30 solid;
-		border-bottom: 1px @gray - 60 solid;
-		.box-shadow(0 -2px 5px rgba(0,0,0,.25));
-		.gradientBar(@gray - 30 , @gray - 10);
-		a{
-			color: @white;
-			display: block;
-			width: 100%;
-			padding: 0.5em 0;
-		}
+}
+#footer{
+	height: 1em;
+	margin-top: 0;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	background: none;
+	.box-shadow(none);
+	.content{
+		margin-top: 0;
 	}
 }
 
 #overlay{
 	display: none;
 }
-#logowide{
-	display: none;
+#content, #wrapper {
+	padding-bottom: 0;
 }
+
 
 /* Dots */
 
@@ -132,26 +132,11 @@ nav{
 		margin: 1em 0;
 		padding: 1em 0.5em;
 	}
+	#closelink{
+		display: block;
+		position: fixed;
+		top: 0.25em;
+		right: 0.25em;
+	}
+}
 
-}
-#closelinkwrapper{
-    border-color: #000 #000 #fff #fff;
-    border-style: solid;
-    border-width:1.5em;
-    width:0;
-    height:0;
-    display: block;
-    position: fixed;
-    top: 0;
-    right: 0;
-    color: #fff;
-	cursor: pointer;
-}
-#closelink{
-	display: block;
-	position: absolute;
-	margin-top: -1em;
-	margin-right: -1em;
-	top: 0;
-	right: 0;
-}

@@ -14,7 +14,7 @@ class Welcome extends CI_Controller {
 		$data = array(
     		'title' => 'Nuse',
     		'base' =>  base_url(),
-    		'mobile' => true //$isMobile
+    		'mobile' => $isMobile
     	);
 		$this->load->view('welcome_message', $data);
 	}

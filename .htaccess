@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
+    Options +FollowSymlinks
     RewriteEngine On
     RewriteBase /nuse
 

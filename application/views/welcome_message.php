@@ -28,7 +28,7 @@
 	</div>
 	<?php } ?>
 	<nav id="menu">
-		
+	<form id="addtopic"><input type="text" id="newtopic" placeholder="+" /></form>
 	</nav>
 	<div id="wrapper" class="container-fluid">
 		<div id="sections" class="content center">
@@ -37,20 +37,24 @@
 	<footer id="footer">
 		<div class="center">
 			<div class="content full" id="footercontent">
-				<div class="logo"></div>
-				<p>&nbsp;</p>
-				<p><a href="http://www.digitalmagi.se/nuse">Vad är nuse?</a></p>
+				<?php if(!$mobile){ ?>
+					<div class="logo"></div>
+					<p>&nbsp;</p>
+					<p><a href="http://www.digitalmagi.se/nuse">Vad är nuse?</a></p>
+				<?php } ?>
 	    	</div>
 		</div>
     </footer>
-    <a href="<?=$base?>about" id="logowide"></a>
+	<?php if(!$mobile){ ?>
+	    <a href="<?=$base?>about" id="logowide"></a>
+	<?php } ?>
 
 	<script src=<?=$base?>js/html5.js type="text/javascript"></script>
 	<script src=<?=$base?>js/jquery.js type="text/javascript"></script>
-	<script src=<?=$base?>js/jquery.tappable.js type="text/javascript"></script>
-	<script src=<?=$base?>js/menu.js type="text/javascript"></script>
+	<script src=<?=$base?>js/spin.min.js type="text/javascript"></script>
 	<script src=<?=$base?>js/script.js type="text/javascript"></script>
 	<?php if($mobile){ ?>
+		<script src=<?=$base?>js/swipe.js type="text/javascript"></script>
 		<script type="text/javascript">
 			mobile = true;
 		</script>
@@ -59,11 +63,10 @@
 		<div class="bg"></div>
 		<div id="text">
 			<?php if($mobile){ ?>
-				<div id="closelinkwrapper"><span id="closelink">&#x2715;</span></div>
+				<div id="closelink">Stäng</div>
 			<?php } ?>
 			<div class="content"></div>
 		</div>
 	</div>
-	<div id="debuginfo"></div>
 </body>
 </html>

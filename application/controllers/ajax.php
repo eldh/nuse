@@ -65,7 +65,7 @@ class Ajax extends CI_Controller {
 	public function topics1() {
 		echo json_encode($this->Bloggar_api->getTopics());
 	}
-	public function topics($max = 8) {
+	public function topics($max = 4) {
 		$blacklist = array(
 			'filip prpic',
 			'iphone',
@@ -74,7 +74,6 @@ class Ajax extends CI_Controller {
 			'fredrik reinfeldt',
 			'lchf',
 			'danny',
-			'mario draghi',
 			'stefan löfven',
 			'påskägg',
 			'påskmiddag',
@@ -82,7 +81,10 @@ class Ajax extends CI_Controller {
 			'påskafton',
 			'påskhelgen',
 			'fra',
-			'karin enström',
+			'jul',
+			'nyår',
+			'julafton',
+			'juldagen',
 			'instagram'
 		);
 		$bt = $this->cache->model('Bloggar_api', 'getTopics', array(), 1200);
@@ -90,15 +92,11 @@ class Ajax extends CI_Controller {
 		$topics = array();
 		$j = 0;
 		while(sizeof($topics) < $max){
-			$two = $j * 2;
-			if(!in_array($bt[$two], $topics) && !in_array($bt[$two], $blacklist)){
-				$topics[] = $bt[$two];
-			}
-			if(!in_array($bt[$two + 1], $topics) && !in_array($bt[$two + 1], $blacklist)){
-				$topics[] = $bt[$two + 1];
-			}
-			if(!in_array($gt[$j], $topics) && !in_array($gt[$j], $blacklist)){
+			if(isset($gt[$j]) && !in_array($gt[$j], $topics) && !in_array($gt[$j], $blacklist)){
 				$topics[] = $gt[$j];
+			}
+			if(isset($bt[$j]) && !in_array($bt[$j], $topics) && !in_array($bt[$j], $blacklist)){
+				$topics[] = $bt[$j];
 			}
 			$j++;
 		}
