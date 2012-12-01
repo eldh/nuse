@@ -103,8 +103,8 @@ class RSSParser
     {
         if ( ! $fp = @fopen($filename, 'wb'))
         {
-          echo “ERROR”;
-          log_message('error', 'Unable to write cache file: '.$cache_path);
+          echo "ERROR";
+          log_message('error', 'Unable to write cache file: '.$this->cache_dir);
           return;
         }
         flock($fp, LOCK_EX);

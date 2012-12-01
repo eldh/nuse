@@ -31,19 +31,19 @@ class Ajax extends CI_Controller {
 	}
 	
 	public function getarticle() {
-		echo json_encode($this->cache->model('Boilerpipe_api', 'getArticle', array($this->input->post('url')), 1200));
+		echo json_encode($this->cache->model('Boilerpipe_api', 'getArticle', array($this->input->post('url')), 12000));
 	}
 	public function trends() {
 		echo json_encode($this->Twitter_api->getTrends());
 	}
 	public function mixedtweets($string, $page = 1) {
-		echo json_encode($this->cache->model('Twitter_api', 'getMixedTweets', array($string), 120));
+		echo json_encode($this->cache->model('Twitter_api', 'getMixedTweets', array($string), 1200));
 	}
 	public function populartweets($string, $page = 1) {
-		echo json_encode($this->cache->model('Twitter_api', 'getPopularTweets', array($string), 120));
+		echo json_encode($this->cache->model('Twitter_api', 'getPopularTweets', array($string), 1200));
 	}
 	public function recenttweets($string, $page = 1) {
-		echo json_encode($this->cache->model('Twitter_api', 'getRecentTweets', array($string), 120));
+		echo json_encode($this->cache->model('Twitter_api', 'getRecentTweets', array($string), 1200));
 	}
 	public function refresh() {
 		$url = $this->input->post('url');
@@ -63,9 +63,9 @@ class Ajax extends CI_Controller {
 		echo json_encode($this->Bloggar_api->getBlogs($string));
 	}
 	public function topics1() {
-		echo json_encode($this->Bloggar_api->getTopics());
+		echo json_encode($this->cache->model('Bloggar_api','getTopics', array($string), 1200));
 	}
-	public function topics($max = 4) {
+	public function topics($max = 6) {
 		$blacklist = array(
 			'filip prpic',
 			'iphone',
@@ -85,7 +85,18 @@ class Ajax extends CI_Controller {
 			'nyår',
 			'julafton',
 			'juldagen',
-			'instagram'
+			'facebook',
+			'instagram',
+			'anders borg',
+			'israel',
+			'välkommen',
+			'nja',
+			'trevligt',
+			'tackar',
+			'tack',
+			'visst',
+			'precis',
+			'japp'
 		);
 		$bt = $this->cache->model('Bloggar_api', 'getTopics', array(), 1200);
 		$gt = $this->cache->model('Twitter_api', 'getTrends', array(), 1200);

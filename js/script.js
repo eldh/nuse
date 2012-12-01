@@ -2,7 +2,7 @@ var loadcounter = 0;
 var loadfull = 200;
 var mobile = false;
 var slider;
-var newanimation = '<div class="newanimation animation">Loading...</div>';
+var newanimation = '<div class="newanimation animation">Laddar ämne...</div>';
 var dot = '<div class="dot"></div>';
 
 $(document).ready(function(){
@@ -17,17 +17,14 @@ $(document).ready(function(){
 		$(this).val('');
 	});
 	
-	if (mobile == true){
-		var footer = $('#footercontent');
-		menu.append('<h1>nuse</h1>');
-		menu.append($("<div id='dots'></div>"));
-		$('#closelink').click(function(){
-			$('#textwrapper').fadeOut(function(){
-				$('#text .content').html("");
-			});
-			scroll(0,0);
-		})
-	}
+	var footer = $('#footercontent');
+	menu.append($("<div id='dots'></div>"));
+	$('#closelink').click(function(){
+		$('#textwrapper').fadeOut(function(){
+			$('#text .content').html("");
+		});
+		scroll(0,0);
+	})
 	$('.textlinks a').live('click', function(event){
 		event.preventDefault();
 		var url = $(this).attr('href');
@@ -75,19 +72,15 @@ function addTopic(event) {
 	$('#newtopic').blur();
 	var nextlink = false;
 	//Add the section
-	if (mobile != true){//Add link to the menu
-		nextlink = $('#menu a').first().attr('href').substr(1);
-	}
+	nextlink = $('#menu a').first().attr('href').substr(1);
 	var newsection = createSection(topic, nextlink);
 	newsection.hide();
 	newsection.addClass("newsection");
 	topicsSection.prepend(newsection);
 	
-	if (mobile != true){//Add link to the menu
-		topicsSection.prepend(newanimation);
-		var link = '<li><a href="#'+topic.replace(/\s/g, "")+'" class="internal">'+topic+'</a></li>';
-		menuTopics.prepend(link);
-	}
+	topicsSection.prepend(newanimation);
+	var link = '<li><a href="#'+topic.replace(/\s/g, "")+'" class="internal">'+topic+'</a></li>';
+	menuTopics.prepend(link);
 	//Fix the other stuff
 	$('.topic').css('min-height', window.innerHeight);
 	$('html, body').animate({scrollTop:0}, 500);
@@ -106,15 +99,12 @@ function getTopics(){
 		loadfull = data.length;
 	}, 'json');
 	sections.append(topicsSection);
-	if (mobile != true){
-		menu.append(menuTopics);
-	}
-
+	menu.append(menuTopics);
 }
 
 function fillMenu(topics, parent){
 	for (var i=0; i < topics.length; i++){
-	console.log(topics[i].replace(/\s/g, ""));
+		console.log(topics[i].replace(/\s/g, ""));
 		var link = '<li><a href="#'+topics[i].replace(/\s/g, "")+'" class="internal">'+topics[i]+'</a></li>';
 		parent.append(link);
 	}
@@ -129,8 +119,6 @@ function fillMenu(topics, parent){
 		event.preventDefault();
 		$('html, body').animate({scrollTop:0}, 500);
 	});
-	$('.topic').css('min-height', window.innerHeight);
-
 }
 
 function getSections(topics, parent){
@@ -142,33 +130,23 @@ function getSections(topics, parent){
 		}
 		parent.append(createSection(topics[i], next));
 	}
-	if (mobile == true){
-		$(".dot:first-child").addClass('active');
-	}
+	$(".dot:first-child").addClass('active');
 }
 
 function createSection(topic, next) {
 	var section = $('<div class="topic clearfix row"></div>');
 	section.append('<a name="'+topic.replace(/\s/g, "")+'"class="anchor">');
-	section.append('<h2 id="'+topic.replace(/\s/g, "")+'"><span>'+topic+'</span></h2>')
+	section.append('<h2 id="'+topic.replace(/\s/g, "")+'">'+topic+'</h2>')
 	var news = $('<div class="news textlinks section span-one-third"></div>');
 	var blogs = $('<div class="blogs textlinks section span-one-third"></div>');
 	var tweets = $('<div class="tweets section span-one-third"></div>');
-	news.append($('<span class="headericon news"></span>'));
-	blogs.append($('<span class="headericon blogs"></span>'));
-	tweets.append($('<span class="headericon tweets"></span>'));
+	news.append($('<span class="header news">Tidningar</span>'));
+	blogs.append($('<span class="header blogs">Bloggar</span>'));
+	tweets.append($('<span class="header tweets">Twitter</span>'));
 	section.append(news);
 	section.append(blogs);
 	section.append(tweets);
-	if ((next!=true) && (mobile != true)){
-		section.append($('<div class="next"><a href="#'+next.replace(/\s/g, "")+'" class="internal">»</a></div>'));
-	}
-	else if (mobile != true) {
-		section.append($('<div class="next up"><a href="#1" >«</a></div>'));
-	}
-	else{ //if mobile
-		$('#dots').append(dot);
-	}
+	$('#dots').append(dot);
 	$.get("ajax/news/"+escape(topic), function(data, textStatus) {
 		if (data[0] == null){
 			news.append("<div>Inga nyhetsartiklar. Dags att tipsa gammelmedia kanske?</div>");
@@ -210,13 +188,13 @@ function createSection(topic, next) {
 
 
 function tweetDiv(data){
-    return $('<div class="tweet item"><span>'+data.text+'</span><br /><a href="http://www.twitter.com/#!/'+data.from_user+'/status/'+data.id_str+'" class="small" target="_blank">'+data.from_user_name+'</a></div>');
+	return $('<div class="tweet item"><span class="item-main-content">'+data.text+'</span><br /><a href="http://www.twitter.com/#!/'+data.from_user+'/status/'+data.id_str+'" class="small" target="_blank">'+data.from_user_name+'</a></div>');
 }
 function newsDiv(data){
-    return $('<div class="item"><span><a href="'+data.url+'" class="black">'+data.title[0]+'</a></span><br /><a href="'+data.url+'" class="small">'+data.title[1]+'</a></div>');;
+	return $('<div class="item"><span class="item-main-content"><a href="'+data.url+'" class="black">'+data.title[0]+'</a></span><br /><a href="'+data.url+'" class="small">'+data.title[1]+'</a></div>');;
 }
 function blogDiv(data){
-    return $('<div class="item"><span><a href="'+data.url+'" class="black">'+data.title+'</a></span><br /><a href="'+data.url+'" class="small">'+data.name+'</a></div>');;
+	return $('<div class="item"><span class="item-main-content"><a href="'+data.url+'" class="black">'+data.title+'</a></span><br /><a href="'+data.url+'" class="small">'+data.name+'</a></div>');;
 }
 
 
@@ -227,7 +205,6 @@ function checkDone(){
 		$('#overlay').fadeOut('slow');
 		$('.newanimation').hide();
 		$('.newsection').fadeIn('slow');
-		if (mobile == true){
 			bullets = $("#dots .dot");
 			slider = new Swipe(document.getElementById('sections'), {
 				callback: function(e, pos) {
@@ -238,6 +215,6 @@ function checkDone(){
 					bullets[pos].className = 'dot active';
 				}
 			});
-		}
+
 	}
 }
