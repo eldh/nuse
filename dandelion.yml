@@ -1,0 +1,13 @@
+# Required
+scheme: ftp
+host: 188.95.227.17
+username: 103165-master
+password: PoP#Livslack3diT
+port: 21
+
+# Optional
+path: nuse.se/public_html/
+exclude:
+    - .gitignore
+    - dandelion.yml
+revision_file: .revision
