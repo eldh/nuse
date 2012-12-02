@@ -37,8 +37,7 @@
 	</footer>
 
 	<script src=<?=$base?>js/html5.js type="text/javascript"></script>
-	<script src=<?=$base?>js/jquery.js type="text/javascript"></script>
-	<script src=<?=$base?>js/spin.min.js type="text/javascript"></script>
+	<script src=<?=$base?>js/zepto.min.js type="text/javascript"></script>
 	<script src=<?=$base?>js/script.js type="text/javascript"></script>
 	<?php if($mobile){ ?>
 		<script src=<?=$base?>js/swipe.js type="text/javascript"></script>

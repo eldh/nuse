@@ -40,10 +40,9 @@ $(document).ready(function(){
 });
 
 function getArticle(url){
-	$('#textwrapper').fadeIn();
+	$('#textwrapper').show();
 	$('#text .content').html(newanimation);
 	$.post("ajax/getarticle/",{"url": url}, function(data, status) {
-		console.log(data);
 		if (data.status == "success"){
 			var title = '<h2>'+data.response.title+'</h2>';
 			var origlink = '<div class="origlink"><a href="'+url+'" target="_blank">'+url+'</a></div>'
@@ -74,15 +73,11 @@ function addTopic(event) {
 	//Add the section
 	nextlink = $('#menu a').first().attr('href').substr(1);
 	var newsection = createSection(topic, nextlink);
-	newsection.hide();
-	newsection.addClass("newsection");
-	topicsSection.prepend(newsection);
-	
-	topicsSection.prepend(newanimation);
+	topicsSection.prepend(newsection.hide());
+	newsection.show().addClass("show");
 	var link = '<li><a href="#'+topic.replace(/\s/g, "")+'" class="internal">'+topic+'</a></li>';
 	menuTopics.prepend(link);
 	//Fix the other stuff
-	$('.topic').css('min-height', window.innerHeight);
 	$('html, body').animate({scrollTop:0}, 500);
 	newsection.focus();
 }
@@ -91,9 +86,10 @@ function addTopic(event) {
 function getTopics(){
 	topicsSection = $('<div class="topics"></div>');
 	menuTopics = $('<ul class="nav"></ul>');
-	var topicscount = 6;
+	var topicscount = 8;
 	loadcounter = topicscount * 3;
 	$.get("ajax/topics/"+topicscount, function(data, textStatus) {
+		data = JSON.parse(data);
 		getSections(data, topicsSection);
 		fillMenu(data, menuTopics);
 		loadfull = data.length;
@@ -128,15 +124,16 @@ function getSections(topics, parent){
 		if (typeof next == 'undefined'){
 			next = true;
 		}
-		parent.append(createSection(topics[i], next));
+		parent.append(createSection(topics[i], next).addClass("show"));
 	}
+	parent.addClass("show");
 	$(".dot:first-child").addClass('active');
 }
 
 function createSection(topic, next) {
 	var section = $('<div class="topic clearfix row"></div>');
 	section.append('<a name="'+topic.replace(/\s/g, "")+'"class="anchor">');
-	section.append('<h2 id="'+topic.replace(/\s/g, "")+'">'+topic+'</h2>')
+	section.append('<h2 id="'+topic.replace(/\s/g, "")+'">'+topic+'</h2>');
 	var news = $('<div class="news textlinks section span-one-third"></div>');
 	var blogs = $('<div class="blogs textlinks section span-one-third"></div>');
 	var tweets = $('<div class="tweets section span-one-third"></div>');
@@ -148,37 +145,40 @@ function createSection(topic, next) {
 	section.append(tweets);
 	$('#dots').append(dot);
 	$.get("ajax/news/"+escape(topic), function(data, textStatus) {
+		data = JSON.parse(data);
 		if (data[0] == null){
-			news.append("<div>Inga nyhetsartiklar. Dags att tipsa gammelmedia kanske?</div>");
+			news.append("<div>Inga nyhetsartiklar. Dags att tipsa gammelmedia kanske?</div>").addClass("show");
 		}
 		else{
 			for(var i in data){
-				news.append(newsDiv(data[i]));
+				news.append(newsDiv(data[i])).addClass("show");
 			}
 		}
 		checkDone();
 	}, 'json');
 	
 	$.get("ajax/blogs/"+escape(topic), function(data, textStatus) {
+		data = JSON.parse(data);
 		if (data[0] == null){
-			blogs.append("<div>Inga bloggträffar. Ring Ajour!</div>");
+			blogs.append("<div>Inga bloggträffar. Ring Ajour!</div>").addClass("show");
 		}
 		else{
 			for(var i in data){
-				blogs.append(blogDiv(data[i]));
+				blogs.append(blogDiv(data[i])).addClass("show");
 			}
 		}
 		checkDone();
 	}, 'json');
 
 	$.get("ajax/mixedtweets/"+escape(topic), function(data, textStatus) {
+		data = JSON.parse(data);
 		if (data['results'][0] == null){
-			tweets.append("<div>Inga tweets. Uppenbarligen inget som intresserar tyckareliten?</div>");
+			tweets.append("<div>Inga tweets. Uppenbarligen inget som intresserar tyckareliten?</div>").addClass("show");
 		}
 		else{
 			for(var i in data['results']){
 				console.log(data);
-				tweets.append(tweetDiv(data['results'][i]));
+				tweets.append(tweetDiv(data['results'][i])).addClass("show");
 			}
 		}
 		checkDone();
@@ -197,24 +197,21 @@ function blogDiv(data){
 	return $('<div class="item"><span class="item-main-content"><a href="'+data.url+'" class="black">'+data.title+'</a></span><br /><a href="'+data.url+'" class="small">'+data.name+'</a></div>');;
 }
 
-
-
 function checkDone(){
 	loadcounter++;
 	if (loadcounter >= loadfull){
-		$('#overlay').fadeOut('slow');
 		$('.newanimation').hide();
-		$('.newsection').fadeIn('slow');
-			bullets = $("#dots .dot");
-			slider = new Swipe(document.getElementById('sections'), {
-				callback: function(e, pos) {
-					var i = bullets.length;
-					while (i--) {
-						bullets[i].className = 'dot ';
-					}
-					bullets[pos].className = 'dot active';
-				}
-			});
+		$('.newsection').addClass("show");
+		bullets = $("#dots .dot");
+		// slider = new Swipe(document.getElementById('sections'), {
+		// 	callback: function(e, pos) {
+		// 		var i = bullets.length;
+		// 		while (i--) {
+		// 			bullets[i].className = 'dot ';
+		// 		}
+		// 		bullets[pos].className = 'dot active';
+		// 	}
+		// });
 
 	}
 }
