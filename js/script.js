@@ -25,6 +25,11 @@ $(document).ready(function(){
 		});
 		scroll(0,0);
 	})
+	$('a.internal').live('click',function(event){
+		event.preventDefault();
+		var offset = $($(this).attr('href')).offset().top;
+		$.scroll(offset-80, 1000);
+	});
 	$('.textlinks a').live('click', function(event){
 		event.preventDefault();
 		var url = $(this).attr('href');
@@ -36,7 +41,6 @@ $(document).ready(function(){
 			$('#text .content').html("");
 		});
 	})
-
 });
 
 function getArticle(url){
@@ -104,17 +108,6 @@ function fillMenu(topics, parent){
 		var link = '<li><a href="#'+topics[i].replace(/\s/g, "")+'" class="internal">'+topics[i]+'</a></li>';
 		parent.append(link);
 	}
-	
-	//Now we can do stuff with the elements that have been loaded
-	$('a.internal').live('click',function(event){
-		event.preventDefault();
-		var offset = $($(this).attr('href')).offset().top;
-		$('html, body').animate({scrollTop:offset-50}, 500);
-	});
-	$('.up a').live('click',function(event){
-		event.preventDefault();
-		$('html, body').animate({scrollTop:0}, 500);
-	});
 }
 
 function getSections(topics, parent){
@@ -203,15 +196,51 @@ function checkDone(){
 		$('.newanimation').hide();
 		$('.newsection').addClass("show");
 		bullets = $("#dots .dot");
-		// slider = new Swipe(document.getElementById('sections'), {
-		// 	callback: function(e, pos) {
-		// 		var i = bullets.length;
-		// 		while (i--) {
-		// 			bullets[i].className = 'dot ';
-		// 		}
-		// 		bullets[pos].className = 'dot active';
-		// 	}
-		// });
+		slider = new Swipe(document.getElementById('sections'), {
+			callback: function(e, pos) {
+				var i = bullets.length;
+				while (i--) {
+					bullets[i].className = 'dot ';
+				}
+				bullets[pos].className = 'dot active';
+			}
+		});
 
 	}
 }
+
+
+
+
+
+
+;(function($) {
+	var interpolate = function (source, target, shift) { 
+		return (source + (target - source) * shift); 
+	};
+
+	var easing = function (t) { 
+	    return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t; 
+	};
+
+	$.scroll = function(endY, duration, easingF) {
+		endY = endY || ($.os.android ? 1 : 0);
+		duration = duration || 200;
+		(typeof easingF === 'function') && (easing = easingF);
+
+		var startY = document.body.scrollTop,
+			startT  = Date.now(),
+			finishT = startT + duration;
+
+		var animate = function() {
+			var now = +(new Date()),
+				shift = (now > finishT) ? 1 : (now - startT) / duration;
+
+			window.scrollTo(0, interpolate(startY, endY, easing(shift)));
+
+			(now > finishT) || setTimeout(animate, 15);
+		};
+	
+		animate();
+	};
+}(Zepto));

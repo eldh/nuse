@@ -19,16 +19,20 @@
 	
 </head>
 <body>
-	<nav id="menu">
-		<form id="addtopic"><input type="text" id="newtopic" placeholder="+" /></form>
-	</nav>
+	<header>
+		<div class="content content-center">
+			<nav id="menu" class="row">
+				<form id="addtopic"><input type="text" id="newtopic" placeholder="+" /></form>
+			</nav>	
+		</div>
+	</header>
 	<div id="wrapper" class="container-fluid">
-		<div id="sections" class="content center">
+		<div id="sections" class="content content-center">
 		</div>
 	</div> <!-- #content, #wrapper -->
 	<footer id="footer">
-		<div class="center">
-			<div class="content full" id="footercontent">
+		<div class="content content-center">
+			<div class="row" id="footercontent">
 				<div class="logo"></div>
 				<p>&nbsp;</p>
 				<p><a href="http://www.digitalmagi.se/nuse">Vad är nuse?</a></p>
@@ -40,7 +44,7 @@
 	<script src=<?=$base?>js/zepto.min.js type="text/javascript"></script>
 	<script src=<?=$base?>js/script.js type="text/javascript"></script>
 	<?php if($mobile){ ?>
-		<script src=<?=$base?>js/swipe.js type="text/javascript"></script>
+		<script src=<?=$base?>js/swipe.min.js type="text/javascript"></script>
 		<script type="text/javascript">
 		mobile = true;
 		</script>
