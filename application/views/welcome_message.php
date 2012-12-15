@@ -13,8 +13,8 @@
 	<link rel="apple-touch-icon-precomposed" href="<?=$base?>img/icon.png" />
 	<link rel="shortcut icon" href="<?=$base?>img/favicon.ico">
 	<?php if($mobile){ ?>
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="<?=$base?>css/iphone.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="<?=$base?>css/iphone.css" type="text/css" />
 	<?php } ?>
 	
 </head>
@@ -42,19 +42,14 @@
 
 	<script src=<?=$base?>js/html5.js type="text/javascript"></script>
 	<script src=<?=$base?>js/zepto.min.js type="text/javascript"></script>
+	<script type="text/javascript" src="js/onmediaquery.min.js"></script>
 	<script src=<?=$base?>js/script.js type="text/javascript"></script>
-	<?php if($mobile){ ?>
-		<script src=<?=$base?>js/swipe.min.js type="text/javascript"></script>
-		<script type="text/javascript">
-		mobile = true;
-		</script>
-	<?php } ?>
-	<div id="textwrapper">
-		<div class="bg"></div>
-		<div id="text">
-			<div id="closelink"></div>
-			<div class="content"></div>
-		</div>
+<div id="textwrapper">
+	<div class="bg"></div>
+	<div id="text">
+		<div id="closelink"></div>
+		<div class="content"></div>
 	</div>
+</div>
 </body>
 </html>

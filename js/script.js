@@ -82,7 +82,7 @@ function addTopic(event) {
 	var link = '<li><a href="#'+topic.replace(/\s/g, "")+'" class="internal">'+topic+'</a></li>';
 	menuTopics.prepend(link);
 	//Fix the other stuff
-	$('html, body').animate({scrollTop:0}, 500);
+	$.scroll(0, 1000);
 	newsection.focus();
 }
 
@@ -196,23 +196,79 @@ function checkDone(){
 		$('.newanimation').hide();
 		$('.newsection').addClass("show");
 		bullets = $("#dots .dot");
-		slider = new Swipe(document.getElementById('sections'), {
-			callback: function(e, pos) {
-				var i = bullets.length;
-				while (i--) {
-					bullets[i].className = 'dot ';
-				}
-				bullets[pos].className = 'dot active';
-			}
-		});
-
+		if(mobile){
+			initializeSlider();
+		}
 	}
 }
 
+function initializeSlider(){
+	slider = new Swipe(document.getElementById('sections'), {
+		callback: function(e, pos) {
+			var i = bullets.length;
+			while (i--) {
+				bullets[i].className = 'dot ';
+			}
+			bullets[pos].className = 'dot active';
+		}
+	});
+}
+function isTouch(){
+	return 'ontouchstart' in document.documentElement;
+}
 
 
+var queries = [
+{
+	context: 'mobile',
+	match: function() {
+		console.log('Mobile callback. Maybe hook up some tel: numbers?');
+		mobile = true;
+		loadjscssfile("swipe.js", "js");
+		initializeSlider();
+	},
+	unmatch: function() {
+		slider = null;
+	}
+},
+{
+	context: 'skinny',
+	match: function() {
+		console.log('skinny callback! Swap the class on the body element.');
+				// Your tablet specific logic can go here.
+			},
+			unmatch: function() {
+				console.log('leaving skinny context!');
+			},
+
+		},
+		{
+			context: 'wide-screen',
+			match: function() {
+				console.log('wide-screen callback woohoo! Load some heavy desktop JS badddness.');
+				// your desktop specific logic can go here.
+			}
+		}
+		];
+	// Go!
+	MQ.init(queries);
 
 
+	function loadjscssfile(filename, filetype){
+ if (filetype=="js"){ //if filename is a external JavaScript file
+ 	var fileref=document.createElement('script')
+ 	fileref.setAttribute("type","text/javascript")
+ 	fileref.setAttribute("src", filename)
+ }
+ else if (filetype=="css"){ //if filename is an external CSS file
+ 	var fileref=document.createElement("link")
+ 	fileref.setAttribute("rel", "stylesheet")
+ 	fileref.setAttribute("type", "text/css")
+ 	fileref.setAttribute("href", filename)
+ }
+ if (typeof fileref!="undefined")
+ 	document.getElementsByTagName("head")[0].appendChild(fileref)
+}
 
 ;(function($) {
 	var interpolate = function (source, target, shift) { 
@@ -220,8 +276,10 @@ function checkDone(){
 	};
 
 	var easing = function (t) { 
-	    return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t; 
+		return t<.5 ? 16*t*t*t*t*t : 1+16*(--t)*t*t*t*t; 
 	};
+
+
 
 	$.scroll = function(endY, duration, easingF) {
 		endY = endY || ($.os.android ? 1 : 0);
@@ -229,18 +287,18 @@ function checkDone(){
 		(typeof easingF === 'function') && (easing = easingF);
 
 		var startY = document.body.scrollTop,
-			startT  = Date.now(),
-			finishT = startT + duration;
+		startT  = Date.now(),
+		finishT = startT + duration;
 
 		var animate = function() {
 			var now = +(new Date()),
-				shift = (now > finishT) ? 1 : (now - startT) / duration;
+			shift = (now > finishT) ? 1 : (now - startT) / duration;
 
 			window.scrollTo(0, interpolate(startY, endY, easing(shift)));
 
 			(now > finishT) || setTimeout(animate, 15);
 		};
-	
+
 		animate();
 	};
 }(Zepto));
