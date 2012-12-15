@@ -46,7 +46,7 @@ class Bloggar_api extends CI_Model{
 		$doc = new DOMDocument();
 		$doc->loadXML($content);
 		$rawtopics = $doc->getElementsByTagName('title');
-		for ($i=1; $i < 10; $i++){
+		for ($i=1; $i < $rawtopics->length; $i++){
 			$topics[] = strtolower($rawtopics->item($i)->nodeValue);
 		}
 		return $topics;		
