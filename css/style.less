@@ -36,15 +36,13 @@ a:hover{
 
 .topics.show{
 	opacity: 1;
-	margin-top: 0em;
 }
 .topics{
-	margin-top: -1em;
 	opacity: 0;
+	transform: translate(0, -100px);
 	.transition(1s all ease);
 }
 .topic.show h2{
-	margin-top: inherit;
 	opacity: 1;
 }
 .topic{
@@ -52,8 +50,9 @@ a:hover{
 		margin-top: 0em;
 		opacity: 0;
 		.transition(0.5s all ease);
+		transform: translate(0, -100px);
 	}
-	margin-top: 2em;
+	transform: translate(0, 100px);
 	margin-bottom: 5em;
 	.section{
 		display: none;
