@@ -20,7 +20,7 @@ class Bloggar_api extends CI_Model{
 	}
 	function getBlogs($string){
 		$data=array();
-		$this->load->library('RSSParser', array('url' => 'http://www.twingly.com/search.rss?approved=True&lang=sv&tspan=w&q='.urlencode(utf8_encode(urldecode($string))), 'life' => 300));
+		$this->load->library('RSSParser', array('url' => 'http://www.twingly.com/search.rss?q='.urlencode(utf8_encode(urldecode($string))), 'life' => 300));
 		$content = $this->rssparser->getFeed(7);
 		foreach ($content as $i => $item){
 			$data[$i]['title'] = (string) $item['title'][0];

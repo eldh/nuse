@@ -99,7 +99,9 @@ class Ajax extends CI_Controller {
 			'japp',
 			'såg',
 			'älskar',
-			'Älskar'
+			'Älskar',
+			'årets',
+			'Årets'
 		);
 		$bt = $this->cache->model('Bloggar_api', 'getTopics', array(), 1200);
 		$gt = $this->cache->model('Twitter_api', 'getTrends', array(), 1200);
