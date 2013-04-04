@@ -26,15 +26,11 @@ class Ajax extends CI_Controller {
 
 	public function index()
 	{
-		
 		$this->load->view('welcome_message', $data);
 	}
 	
 	public function getarticle() {
 		echo json_encode($this->cache->model('Boilerpipe_api', 'getArticle', array($this->input->post('url')), 12000));
-	}
-	public function trends() {
-		echo json_encode($this->Twitter_api->getTrends());
 	}
 	public function mixedtweets($string, $page = 1) {
 		echo json_encode($this->cache->model('Twitter_api', 'getMixedTweets', array($string), 1200));
@@ -65,7 +61,7 @@ class Ajax extends CI_Controller {
 	public function topics1() {
 		echo json_encode($this->cache->model('Bloggar_api','getTopics', array($string), 1200));
 	}
-	public function topics($max = 6) {
+	public function topics($max = 5) {
 		$blacklist = array(
 			'filip prpic',
 			'iphone',
@@ -75,13 +71,20 @@ class Ajax extends CI_Controller {
 			'lchf',
 			'danny',
 			'stefan löfven',
-			'påskägg',
-			'påskmiddag',
 			'påsk',
 			'påskafton',
+			'påskdagen',
 			'påskhelgen',
+			'påskgodis',
+			'Glad Påsk',
+			'Happy Easter',
+			'Göteborg',
+			'påskmiddag',
+			'påskägg',
 			'fra',
 			'jul',
+			'Såg',
+			'går',
 			'nyår',
 			'julafton',
 			'juldagen',
@@ -108,8 +111,10 @@ class Ajax extends CI_Controller {
 		$topics = array();
 		$j = 0;
 		while(sizeof($topics) < $max){
-			if(isset($gt[$j]) && !in_array($gt[$j], $topics) && !in_array($gt[$j], $blacklist)){
-				$topics[] = $gt[$j];
+			if(isset($gt[0]->trends[$j]) && 
+				!in_array($gt[0]->trends[$j]->name, $topics) && 
+				!in_array($gt[0]->trends[$j]->name, $blacklist)) {
+					$topics[] = $gt[0]->trends[$j]->name;
 			}
 			if(isset($bt[$j]) && !in_array($bt[$j], $topics) && !in_array($bt[$j], $blacklist)){
 				$topics[] = $bt[$j];

@@ -8,7 +8,7 @@
 	<meta name="description" content="Följ det svenska nyhetsflödet." />
 	<meta name="keywords" content="nyheter, mashup, twitter, svenska, sverige" />
 	
-	<link href='http://fonts.googleapis.com/css?family=Montserrat:300,400,700,900' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="<?=$base?>css/style.css" type="text/css" media="screen" />
 	<link rel="apple-touch-icon-precomposed" href="<?=$base?>img/icon.png" />
 	<link rel="shortcut icon" href="<?=$base?>img/favicon.ico">
@@ -22,7 +22,7 @@
 	<header>
 		<div class="content content-center">
 			<nav id="menu" class="row">
-				<form id="addtopic"><input type="text" id="newtopic" placeholder="+" /></form>
+				<form id="addtopic"><input type="text" id="newtopic" placeholder="Lägg till ämne" /></form>
 			</nav>	
 		</div>
 	</header>
@@ -35,7 +35,7 @@
 			<div class="row" id="footercontent">
 				<div class="logo"></div>
 				<p>&nbsp;</p>
-				<p><a href="http://www.digitalmagi.se/nuse">Vad är nuse?</a></p>
+				<p>Nuse har skapats av <a href="http://www.digitalmagi.se/">Andreas Eldh</a></p>
 			</div>
 		</div>
 	</footer>

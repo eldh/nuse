@@ -9,6 +9,8 @@ nuse.dot = '<div class="dot"></div>';
 $(document).ready(function(){
 	nuse.sections = $('#sections');
 	nuse.menu = $('#menu');
+	nuse.topicsSection = $('<div class="topics"></div>');
+	nuse.menuTopics = $('<ul class="nav"></ul>');
 	var menuTopics;
 	$('#addtopic').submit(nuse.addTopic);
 	nuse.getTopics();
@@ -18,7 +20,6 @@ $(document).ready(function(){
 	});
 	
 	var footer = $('#footercontent');
-	nuse.menu.append($("<div id='dots'></div>"));
 	$('#closelink').click(function(){
 		$('#textwrapper').fadeOut(function(){
 			$('#text .content').html("");
@@ -68,7 +69,6 @@ nuse.getArticle = function(url){
 nuse.addTopic = function(event) {
 	event.preventDefault();
 	nuse.loadfull = nuse.loadcounter + 3;
-
 	//Get the topic
 	var topic = $('#newtopic').val();
 	$('#newtopic').val("");
@@ -88,18 +88,16 @@ nuse.addTopic = function(event) {
 
 
 nuse.getTopics = function(){
-	var topicsSection = $('<div class="topics"></div>');
-	var menuTopics = $('<ul class="nav"></ul>');
-	var topicscount = 8;
+	var topicscount = 5;
 	nuse.loadcounter = topicscount * 3;
 	$.get("ajax/topics/"+topicscount, function(data, textStatus) {
 		data = JSON.parse(data);
-		nuse.getSections(data, topicsSection);
-		nuse.fillMenu(data, menuTopics);
+		nuse.getSections(data, nuse.topicsSection);
+		nuse.fillMenu(data, nuse.menuTopics);
 		nuse.loadfull = data.length;
 	}, 'json');
-	nuse.sections.append(topicsSection);
-	nuse.menu.append(menuTopics);
+	nuse.sections.append(nuse.topicsSection);
+	nuse.menu.prepend(nuse.menuTopics);
 };
 
 nuse.fillMenu = function(topics, parent){
@@ -165,13 +163,13 @@ nuse.createSection = function(topic, next) {
 
 	$.get("ajax/mixedtweets/"+escape(topic), function(data, textStatus) {
 		data = JSON.parse(data);
-		if (data['results'][0] === null){
+		console.log(data);
+		if (data.length < 1){
 			tweets.append("<div>Inga tweets. Uppenbarligen inget som intresserar tyckareliten?</div>").addClass("show");
 		}
 		else{
-			for(var i in data['results']){
-				console.log(data);
-				tweets.append(nuse.tweetDiv(data['results'][i])).addClass("show");
+			for(var i in data){
+				tweets.append(nuse.tweetDiv(data[i])).addClass("show");
 			}
 		}
 		nuse.checkDone();
@@ -181,7 +179,7 @@ nuse.createSection = function(topic, next) {
 
 
 nuse.tweetDiv = function(data){
-	return $('<div class="tweet item"><span class="item-main-content">'+data.text+'</span><br /><a href="http://www.twitter.com/#!/'+data.from_user+'/status/'+data.id_str+'" class="small" target="_blank">'+data.from_user_name+'</a></div>');
+	return $('<div class="tweet item"><span class="item-main-content">'+data.text+'</span><br /><a href="http://www.twitter.com/#!/'+data.user.screen_name+'/status/'+data.id_str+'" class="small" target="_blank">'+data.user.name+'</a></div>');
 };
 nuse.newsDiv = function(data){
 	return $('<div class="item"><span class="item-main-content"><a href="'+data.url+'" class="black">'+data.title[0]+'</a></span><br /><a href="'+data.url+'" class="small">'+data.title[1]+'</a></div>');
