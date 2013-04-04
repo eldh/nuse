@@ -95,8 +95,10 @@ class Twitter_api extends CI_Model{
 	}
 	
 	private function fix($in) {
-		foreach ($in['results'] as &$tweet){
-			$tweet['text'] = $this->fixUrls($tweet['text']);
+		if(isset($in['results'])) {
+			foreach ($in['results'] as &$tweet){
+				$tweet['text'] = $this->fixUrls($tweet['text']);
+			}
 		}
 		return $in;
 	}
@@ -106,16 +108,16 @@ class Twitter_api extends CI_Model{
 	}
 	
 	private function fixUrls($string){
-            $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-            preg_match_all($reg_exUrl, $string, $matches);
-            $usedPatterns = array();
-            foreach($matches[0] as $pattern){
-                if(!array_key_exists($pattern, $usedPatterns)){
-                    $usedPatterns[$pattern]=true;
-                    $string = str_replace ($pattern, "<a href=".$pattern." rel='nofollow' target='_blank'>{$pattern}</a> ", $string);
-                }
-            }
-            return $string;
+    $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+    preg_match_all($reg_exUrl, $string, $matches);
+    $usedPatterns = array();
+    foreach($matches[0] as $pattern){
+        if(!array_key_exists($pattern, $usedPatterns)){
+            $usedPatterns[$pattern]=true;
+            $string = str_replace ($pattern, "<a href=".$pattern." rel='nofollow' target='_blank'>{$pattern}</a> ", $string);
+        }
+    }
+    return $string;
 	}
 }
 ?>
