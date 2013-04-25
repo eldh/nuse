@@ -4,21 +4,20 @@ nuse.loadfull = 200;
 nuse.mobile = false;
 nuse.slider = "";
 nuse.newanimation = '<div class="newanimation animation">Laddar ämne...</div>';
-nuse.dot = '<div class="dot"></div>';
 
 $(document).ready(function(){
 	nuse.sections = $('#sections');
-	nuse.menu = $('#menu');
+	nuse.menu = $('#nav');
 	nuse.topicsSection = $('<div class="topics"></div>');
 	nuse.menuTopics = $('<ul class="nav"></ul>');
 	var menuTopics;
 	$('#addtopic').submit(nuse.addTopic);
 	nuse.getTopics();
-	
+
 	$('#newtopic').focusout(function(){
 		$(this).val('');
 	});
-	
+
 	var footer = $('#footercontent');
 	$('#closelink').click(function(){
 		$('#textwrapper').fadeOut(function(){
@@ -26,17 +25,17 @@ $(document).ready(function(){
 		});
 		scroll(0,0);
 	});
-	$('a.internal').live('click',function(event){
+	$(document).on('click', 'a.internal', function(event){
 		event.preventDefault();
 		var offset = $($(this).attr('href')).offset().top;
 		$.scroll(offset-80, 1000);
 	});
-	$('.textlinks a').live('click', function(event){
-		event.preventDefault();
-		var url = $(this).attr('href');
-		nuse.getArticle(url);
-		return false;
-	});
+	// $(document).on('click', '.textlinks a', function(event){
+	// 	event.preventDefault();
+	// 	var url = $(this).attr('href');
+	// 	nuse.getArticle(url);
+	// 	return false;
+	// });
 	$('#textwrapper .bg').click(function(){
 		$('#textwrapper').fadeOut(function(){
 			$('#text .content').html("");
@@ -61,7 +60,7 @@ nuse.getArticle = function(url){
 			$('#text .content').html();
 		}
 		if(nuse.mobile === true){
-			scroll(0,0);
+			$.scroll(0,100);
 		}
 	}, 'json');
 };
@@ -75,7 +74,7 @@ nuse.addTopic = function(event) {
 	$('#newtopic').blur();
 	//Add the section
 	var nextlink = false;
-	nextlink = $('#menu a').first().attr('href').substr(1);
+	nextlink = nuse.menu.find('a').first().attr('href').substr(1);
 	var newsection = nuse.createSection(topic, nextlink);
 	nuse.topicsSection.prepend(newsection.hide());
 	newsection.show().addClass("show");
@@ -91,7 +90,6 @@ nuse.getTopics = function(){
 	var topicscount = 5;
 	nuse.loadcounter = topicscount * 3;
 	$.get("ajax/topics/"+topicscount, function(data, textStatus) {
-		data = JSON.parse(data);
 		nuse.getSections(data, nuse.topicsSection);
 		nuse.fillMenu(data, nuse.menuTopics);
 		nuse.loadfull = data.length;
@@ -118,7 +116,6 @@ nuse.getSections = function(topics, parent){
 		parent.append(nuse.createSection(topics[i], next).addClass("show"));
 	}
 	parent.addClass("show");
-	$(".dot:first-child").addClass('active');
 };
 
 nuse.createSection = function(topic, next) {
@@ -134,9 +131,7 @@ nuse.createSection = function(topic, next) {
 	section.append(news);
 	section.append(blogs);
 	section.append(tweets);
-	$('#dots').append(nuse.dot);
 	$.get("ajax/news/"+escape(topic), function(data, textStatus) {
-		data = JSON.parse(data);
 		if (data[0] === null){
 			news.append("<div>Inga nyhetsartiklar. Dags att tipsa gammelmedia kanske?</div>").addClass("show");
 		}
@@ -149,7 +144,6 @@ nuse.createSection = function(topic, next) {
 	}, 'json');
 	
 	$.get("ajax/blogs/"+escape(topic), function(data, textStatus) {
-		data = JSON.parse(data);
 		if (data[0] === null){
 			blogs.append("<div>Inga bloggträffar. Ring Ajour!</div>").addClass("show");
 		}
@@ -162,7 +156,6 @@ nuse.createSection = function(topic, next) {
 	}, 'json');
 
 	$.get("ajax/mixedtweets/"+escape(topic), function(data, textStatus) {
-		data = JSON.parse(data);
 		console.log(data);
 		if (data.length < 1){
 			tweets.append("<div>Inga tweets. Uppenbarligen inget som intresserar tyckareliten?</div>").addClass("show");
@@ -193,7 +186,6 @@ nuse.checkDone = function(){
 	if (nuse.loadcounter >= nuse.loadfull){
 		$('.newanimation').hide();
 		$('.newsection').addClass("show");
-		bullets = $("#dots .dot");
 		if(nuse.mobile){
 			nuse.initializeSlider();
 		}
@@ -215,58 +207,6 @@ nuse.isTouch = function(){
 	return 'ontouchstart' in document.documentElement;
 };
 
-
-var queries = [
-	{
-		context: 'mobile',
-		match: function() {
-			console.log('Mobile callback. Maybe hook up some tel: numbers?');
-			nuse.mobile = true;
-			nuse.loadjscssfile("swipe.js", "js");
-			nuse.initializeSlider();
-		},
-		unmatch: function() {
-			nuse.slider = null;
-		}
-	},
-	{
-		context: 'skinny',
-		match: function() {
-			// Your tablet specific logic can go here.
-		},
-		unmatch: function() {
-			console.log('leaving skinny context!');
-		}
-	},
-	{
-		context: 'wide-screen',
-		match: function() {
-			console.log('wide-screen callback woohoo! Load some heavy desktop JS badddness.');
-			// your desktop specific logic can go here.
-		}
-	}
-];
-// Go!
-MQ.init(queries);
-
-
-nuse.loadjscssfile = function(filename, filetype){
-	var fileref=document.createElement('script');
-	if (filetype=="js"){ //if filename is a external JavaScript file
-		fileref.setAttribute("type","text/javascript");
-		fileref.setAttribute("src", filename);
-	}
-	else if (filetype=="css"){ //if filename is an external CSS file
-		fileref=document.createElement("link");
-		fileref.setAttribute("rel", "stylesheet");
-		fileref.setAttribute("type", "text/css");
-		fileref.setAttribute("href", filename);
-	}
-	if (typeof fileref!="undefined") {
-		document.getElementsByTagName("head")[0].appendChild(fileref);
-	}
-};
-
 (function($) {
 	var interpolate = function (source, target, shift) {
 		return (source + (target - source) * shift);
@@ -279,7 +219,6 @@ nuse.loadjscssfile = function(filename, filetype){
 
 
 	$.scroll = function(endY, duration, easingF) {
-		endY = endY || ($.os.android ? 1 : 0);
 		duration = duration || 200;
 		if (typeof easingF === 'function') easing = easingF;
 
@@ -298,4 +237,4 @@ nuse.loadjscssfile = function(filename, filetype){
 
 		animate();
 	};
-}(Zepto));
+}($));

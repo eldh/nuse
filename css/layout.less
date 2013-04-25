@@ -38,13 +38,15 @@ header#top {
 
 .topic.row {
 	.column(12);
+	width: 100%;
 	margin-left: 0;
 	margin-right: 0;
 	margin-top: 3em;
 	margin-bottom: 5em;
-	.section {
-		.column(4);
-	}
+}
+.section {
+	.column(4);
+	max-width: 30em;
 }
 
 html, body, #wrapper { height: 100%; }
@@ -71,26 +73,8 @@ body > #wrapper { height: auto; min-height: 100%; }
  	max-width: @max-width / 2;
 
 }
-
-@media screen and (max-width: 720px) {
-	#maincolumn,
-	#sidebar {
-		.column(12);
-		margin-bottom: 1em;
-	}
-	.teaser {
-		.column(6);
-	}
-
-}
-@media screen and (max-width: 480px) {
-	#maincolumn,
-	#sidebar {
-		.column(12);
-		margin-bottom: 1em;
-	}
-	.teaser {
+@media screen and (max-width: 40em) {
+	.section {
 		.column(12);
 	}
-
 }

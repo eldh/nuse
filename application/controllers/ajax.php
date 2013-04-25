@@ -104,7 +104,9 @@ class Ajax extends CI_Controller {
 			'älskar',
 			'Älskar',
 			'årets',
-			'Årets'
+			'Årets',
+			'New British Boyband',
+			'Soccer Six Bolton'
 		);
 		$bt = $this->cache->model('Bloggar_api', 'getTopics', array(), 1200);
 		$gt = $this->cache->model('Twitter_api', 'getTrends', array(), 1200);

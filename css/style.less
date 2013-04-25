@@ -2,7 +2,7 @@
 @import "variables.less";
 @import "mixins.less";
 @import "type.less";
-@import "responsive.css";
+@import "nav.less";
 
 
 body {
@@ -156,17 +156,13 @@ header {
 			letter-spacing: 2px;
 		}
 		ul{
-			list-style: none;
 			margin: 0;
 		}
 		li {
-			list-style: none;
 			font-weight: bolder;
-			float: left;
 			padding-left: 0;
 			border-left: none !important;
 			font-size: 0.8em;
-			display: block;
 			a {
 				color: @white;
 				display: block;
@@ -373,4 +369,15 @@ input::-webkit-input-placeholder, input::-moz-placeholder {
 	0%{-moz-transform: scale(1);opacity:1;}
 	50%{-moz-transform: scale(0.7);opacity:0.1;}
 	100%{-moz-transform: scale(1);opacity:1;}
+}
+
+
+@media screen and (max-width: 40em) {
+  .topic h2 {
+  	letter-spacing: 1px;
+  	font-size: 30px;
+  }
+  .header {
+		letter-spacing: 1px;
+	}
 }
