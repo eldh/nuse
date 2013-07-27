@@ -1,0 +1,50 @@
+$footerheight: 10em;
+
+header {
+	margin-bottom: 1em;
+}
+.content-center {
+	position: relative;
+	margin: 0 auto;
+	overflow: hidden;
+}
+.topic {
+	margin: 3em auto 5em;
+}
+
+html, body{
+	height: 100%;
+}
+
+#wrapper {
+	height: auto;
+	padding-bottom: $footerheight;
+	padding-left: $base-spacing-unit;
+	padding-right: $base-spacing-unit;
+}
+.gw {
+	max-width: $max-width;
+}
+
+footer {
+	clear: both;
+	position: relative;
+	z-index: 10;
+	height: $footerheight;
+	margin-top: -$footerheight;
+}
+
+#about{
+ 	max-width: $max-width / 2;
+}
+
+.no-padding {
+	padding-left: 0;
+}
+
+@include media-query(palm) {
+	#wrapper {
+		margin: 0 auto;
+		max-width: 420px;
+	}
+}

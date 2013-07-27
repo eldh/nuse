@@ -72,7 +72,6 @@ class Twitter_api extends CI_Model{
   //   	}
 		// $content['results'] = $data;
 		// $content['reserves'] = $reserves;
-		// return $this->fix($content);
 		$data = array(
 			'q' => $string,
 			'lang' => "sv",
@@ -82,7 +81,7 @@ class Twitter_api extends CI_Model{
 
 		$res = $this->twconnection->get('search/tweets', $data);
 		$res = $res->statuses;
-		return $res;
+		return $this->fix($res);
 	}
 		
 	function getTrends($woeid = 23424954){
@@ -95,12 +94,12 @@ class Twitter_api extends CI_Model{
 	}
 	
 	private function fix($in) {
-		if(isset($in['results'])) {
-			foreach ($in['results'] as &$tweet){
-				$tweet['text'] = $this->fixUrls($tweet['text']);
-			}
+			// print_r($in);
+		foreach ($in as &$tweet){
+			// print_r($tweet->text);
+			$tweet->text = $this->fixUrls($tweet->text);
 		}
-		return $in;
+		return array_slice($in, 0, 4);
 	}
 	
 	private function StartsWith($haystack, $needle){

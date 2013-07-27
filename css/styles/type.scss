@@ -1,0 +1,42 @@
+h1, h2 {
+	font-family: $brand-face;
+	text-transform: uppercase;
+}
+h1 {
+	font-weight: 100;
+	line-height: $base-line-height * 4;
+	letter-spacing: .5em;
+	margin-bottom: $base-spacing-unit;
+	max-width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+h2 {
+	color: $gray;
+	font-weight: 700;
+	// font-style: italic;
+	line-height: $base-line-height;
+	margin-bottom: $half-spacing-unit;
+	letter-spacing: .3em;
+}
+
+@include media-query(portable) {
+	h1 {
+		font-size: $h1-size / 1.75;
+		line-height: $base-line-height * 3;
+		letter-spacing: .2em;
+	}
+	.item {
+		font-size: 0.875em;
+	}
+}
+@include media-query(palm) {
+	h1 {
+		font-size: $h1-size / 2;
+		line-height: $base-line-height * 3;
+		letter-spacing: 1px;
+	}
+	.item {
+		font-size: 0.875em;
+	}
+}

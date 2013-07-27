@@ -8,15 +8,14 @@ nuse.newanimation = '<div class="newanimation animation">Laddar ämne...</div>';
 $(document).ready(function(){
 	nuse.sections = $('#sections');
 	nuse.menu = $('#nav');
+	nuse.addTopicForm =  $("#add-topic-form");
+	nuse.addTopicBtn =  $("#add-topic-button");
+	nuse.addTopicInput =  $("#add-topic-input");
 	nuse.topicsSection = $('<div class="topics"></div>');
 	nuse.menuTopics = $('<ul class="nav"></ul>');
 	var menuTopics;
-	$('#addtopic').submit(nuse.addTopic);
+	nuse.addTopicForm.submit(nuse.addTopic);
 	nuse.getTopics();
-
-	$('#newtopic').focusout(function(){
-		$(this).val('');
-	});
 
 	var footer = $('#footercontent');
 	$('#closelink').click(function(){
@@ -41,6 +40,15 @@ $(document).ready(function(){
 			$('#text .content').html("");
 		});
 	});
+
+	nuse.addTopicBtn.click(function (event) {
+		nuse.addTopicForm.addClass("open");
+		nuse.addTopicInput.focus();
+	});
+	nuse.addTopicInput.blur(function (arguments) {
+		nuse.addTopicForm.removeClass("open");
+		nuse.addTopicInput.val('');
+	})
 });
 
 nuse.getArticle = function(url){
@@ -69,9 +77,9 @@ nuse.addTopic = function(event) {
 	event.preventDefault();
 	nuse.loadfull = nuse.loadcounter + 3;
 	//Get the topic
-	var topic = $('#newtopic').val();
-	$('#newtopic').val("");
-	$('#newtopic').blur();
+	var topic = nuse.addTopicInput.val();
+	nuse.addTopicInput.val("");
+	nuse.addTopicInput.blur();
 	//Add the section
 	var nextlink = false;
 	nextlink = nuse.menu.find('a').first().attr('href').substr(1);
@@ -83,6 +91,7 @@ nuse.addTopic = function(event) {
 	//Fix the other stuff
 	$.scroll(0, 1000);
 	newsection.focus();
+	navigation.toggle();
 };
 
 
@@ -119,21 +128,21 @@ nuse.getSections = function(topics, parent){
 };
 
 nuse.createSection = function(topic, next) {
-	var section = $('<div class="topic clearfix row"></div>');
+	var section = $('<div class="topic gw"></div>');
 	section.append('<a name="'+topic.replace(/\s/g, "")+'"class="anchor">');
-	section.append('<h2 id="'+topic.replace(/\s/g, "")+'">'+topic+'</h2>');
-	var news = $('<div class="news textlinks section span-one-third"></div>');
-	var blogs = $('<div class="blogs textlinks section span-one-third"></div>');
-	var tweets = $('<div class="tweets section span-one-third"></div>');
-	news.append($('<span class="header news">Tidningar</span>'));
-	blogs.append($('<span class="header blogs">Bloggar</span>'));
-	tweets.append($('<span class="header tweets">Twitter</span>'));
+	section.append('<h1 id="'+topic.replace(/\s/g, "")+'" class=" g one-whole no-padding">'+topic+'</h1>');
+	var news = $('<div class="section section--news g one-third palm-one-whole textlinks"></div>');
+	var blogs = $('<div class="section section--blogs g one-third palm-one-whole textlinks"></div>');
+	var tweets = $('<div class="section section--tweets g one-third palm-one-whole"></div>');
+	news.append($('<h2 class="section__header">Tidningar</h2>'));
+	blogs.append($('<h2 class="section__header">Bloggar</h2>'));
+	tweets.append($('<h2 class="section__header">Twitter</h2>'));
 	section.append(news);
 	section.append(blogs);
 	section.append(tweets);
 	$.get("ajax/news/"+escape(topic), function(data, textStatus) {
 		if (data[0] === null){
-			news.append("<div>Inga nyhetsartiklar. Dags att tipsa gammelmedia kanske?</div>").addClass("show");
+			news.append("<div class='no-hits'>Inga nyhetsartiklar. Dags att tipsa gammelmedia kanske?</div>").addClass("show");
 		}
 		else{
 			for(var i in data){

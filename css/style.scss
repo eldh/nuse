@@ -1,0 +1,136 @@
+body {
+	font-family: $brand-face;
+	background-color: #fff;
+	color: $black;
+	padding-top: 40px;
+}
+
+
+.item-main-content, .item-main-content a {
+	font-weight: 400;
+}
+
+li:hover {
+	text-decoration: none;
+}
+
+a {
+	text-decoration: none;
+	// .transition(color 0.5s ease);
+}
+a:hover {
+	color: $black;
+	text-decoration: none;
+}
+
+.topics.show {
+	opacity: 1;
+}
+.topics {
+	opacity: 0;
+	transform: translate(0, -100px);
+}
+.topic.show h1 {
+	opacity: 1;
+}
+.topic {
+	h1 {
+		position: relative;
+		// transform: translate(0, -100px);
+		border-bottom: 1px $black solid;
+		opacity: 0;
+		text-align: center;
+	}
+	// transform: translate(0, 100px);
+	margin-bottom: $base-spacing-unit * 5;
+	.section {
+		display: none;
+		margin-top: $base-spacing-unit;
+		opacity: 0;
+	}
+	.section.show {
+		margin-top: 0px;
+		opacity: 1;
+		display: block;
+	}
+	a {
+		color: $gray - 20;
+		&.black {
+			color: $black;
+		}
+		&.small {
+			display: inline-block;
+			margin-bottom: 12px;
+			font-size: 11px;
+			color: $gray + 30;
+			text-transform: uppercase;
+			letter-spacing: 0.1em;
+			&:hover {
+				color: $gray;
+			}
+		}
+		&:hover {
+			color: $gray;
+		}
+	}
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5) {
+	.section {
+		padding-bottom: 2em;
+	}
+}
+
+.header{
+	font-size: 1.25em;
+	text-transform: uppercase;
+	color: $grayLight;
+	line-height: 2em;
+	letter-spacing: 0.4em;
+	display: block;
+}
+
+footer {
+	background-color: $white - 15;
+	border-top: 1px $grayLight + 20 solid;
+	color: $black;
+	.center{
+		height: 100%;
+	}
+	p {
+		font-size: 1.25em;
+	}
+	a {
+		color: $accent;
+		font-weight: 900;
+	}
+}
+#about p {
+	font-size: 1.25em;
+	line-height: 1.25em;
+}
+
+#overlay {
+	background-color: #fff;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	z-index: 2000;
+	top:0;
+	text-align: center;
+	#logo {
+		width: 300px;
+		margin: 0 auto;
+		margin-top: 100px;
+		height: auto;
+	}
+}
+
+@include media-query(palm) {
+	.topic {
+		margin-bottom: $base-spacing-unit * 3;
+	}
+	.header {
+		letter-spacing: 1px;
+	}
+}

@@ -1,0 +1,149 @@
+/*------------------------------------*\
+    $VARS
+\*------------------------------------*/
+/**
+ * Set up project-specific variables here which are then used throughout your
+ * build. These variables are automatically picked up by inuit.css so you should
+ * never need to modify any framework code.
+ */
+
+
+/**
+ * Debug mode will visually highlight any potential markup/accessibility quirks
+ * in the browser. Set to `true` or `false`.
+ */
+$debug-mode:        false;
+
+
+/**
+ * Do you want all elements to adopt `box-sizing:border-box;` as per
+ * paulirish.com/2012/box-sizing-border-box-ftw ?
+ */
+$global-border-box: true;
+
+
+/**
+ * Base stuff
+ */
+$base-font-size:    16px!default;
+$base-line-height:  24px!default;
+
+
+/**
+ * How big would you like round corners to be by default?
+ */
+$brand-round:        10px!default;
+
+
+/**
+ * Responsiveness?
+ * Tell inuit.css when breakpoints start, in pixels.
+ */
+$responsive:        true!default;
+$lap-start:         635px!default;
+$desk-start:        1024px!default;
+
+
+/**
+ * Font-sizes (in pixels). Refer to relevant sections for their implementations.
+ */
+$giga-size:         96px!default;
+$mega-size:         72px!default;
+$kilo-size:         48px!default;
+
+$h1-size:           56px!default; // .alpha
+$h2-size:           16px!default; // .beta
+$h3-size:           24px!default; // .gamma
+$h4-size:           20px!default; // .delta
+$h5-size:           16px!default; // .epsilon
+$h6-size:           16px!default; // .zeta
+
+$milli-size:        14px!default;
+$micro-size:        12px!default;
+
+
+/**
+ * Width stuff to hep with grid. N
+ */
+$max-width: 960px!default;
+
+
+/**
+ * Brand stuff
+ */
+$brand-color:       #00990C!default;
+$brand-color2:      #B9C445!default;
+$brand-color-light: #EEFFF4!default;
+$brand-color-dark:  #0C451B!default;
+$brand-face:        "Lato", "Avenir", "Gotham", Helvetica, Arial, sans-serif!default;
+$header-face:       'Old Standard TT', sans-serif!default;
+$gray:              #999!default;
+$black:             #333!default;
+
+/**
+ * inuit.css will work these next ones out for you.
+ *
+ * Assign our `$base-line-height` to a new spacing var for more transparency.
+ */
+$base-spacing-unit: $base-line-height!default;
+$half-spacing-unit: $base-spacing-unit / 2!default;
+$line-height-ratio: $base-line-height / $base-font-size;
+
+
+// Links
+$linkColor:         #a03b29;
+$linkColorHover:    darken($linkColor, 15);
+
+// Grays
+$black:             #333;
+$grayDark:          lighten($black, 25%);
+$gray:              lighten($black, 50%);
+$grayLight:         lighten($black, 75%);
+$grayLighter:       lighten($black, 90%);
+$white:             #fff;
+$accent: 						rgb(255, 89, 89);
+
+// Accent Colors
+$blue:              #049CDB;
+$blueDark:          #0064CD;
+$green:             #46a546;
+$red:               #9d261d;
+$yellow:            #ffc40d;
+$orange:            #f89406;
+$pink:              #c3325f;
+$purple:            #7a43b6;
+
+// Baseline grid
+$basefont:          10px;
+$baseline:          28px;
+
+// Griditude
+// Modify the grid styles in mixins.less
+$gridColumns:       16;
+$gridColumnWidth:   40px;
+$gridGutterWidth:   20px;
+$extraSpace:        ($gridGutterWidth * 2); // For our grid calculations
+$siteWidth:         ($gridColumns * $gridColumnWidth) + ($gridGutterWidth * ($gridColumns - 1));
+
+
+// Color Scheme
+// Use this to roll your own color schemes if you like (unused by Bootstrap by default)
+$baseColor:         #a03b29;                  // Set a base color
+$complement:        spin($baseColor, 180);  // Determine a complementary color
+$split1:            spin($baseColor, 158);  // Split complements
+$split2:            spin($baseColor, -158);
+$triad1:            spin($baseColor, 135);  // Triads colors
+$triad2:            spin($baseColor, -135);
+$tetra1:            spin($baseColor, 90);   // Tetra colors
+$tetra2:            spin($baseColor, -90);
+$analog1:           spin($baseColor, 22);   // Analogs colors
+$analog2:           spin($baseColor, -22);
+
+
+
+// More variables coming soon:
+// - $basefont to $baseFontSize
+// - $baseline to $baseLineHeight
+// - $baseFontFamily
+// - $primaryButtonColor
+// - anything else? File an issue on GitHub

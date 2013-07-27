@@ -1,0 +1,76 @@
+.addtopic {
+	@extend .clearfix;
+	position: absolute;
+	top: 0;
+	right: $base-spacing-unit;
+	width: $base-spacing-unit * 2;
+	height: 100%;
+	line-height: $base-line-height;
+	border-left: 1px rgba(0,0,0,0.05) solid;
+	border-right: 1px rgba(0,0,0,0.1) solid;
+	box-shadow: 0 -1px 0 rgba(0,0,0,0.35) inset, 0 1px 0 rgba(255,255,255,0.1) inset, 0 0 1px rgba(255,255,255,0.3) inset;
+	@include linear-gradient($brand-color + 15, $brand-color);
+	@include transition(all 0.5s ease);
+	&.open {
+		width: 15em;
+		box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	}
+	&:active, &.open {
+		@include linear-gradient($brand-color, $brand-color);
+	}
+	:-moz-placeholder {
+		color: rgba(255,255,255,0.7);
+	}
+	::-webkit-input-placeholder {
+		color: rgba(255,255,255,0.7);
+	}
+}
+
+.addtopic__input,
+.addtopic__button {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	float: left;
+	padding: $half-spacing-unit - 1 $half-spacing-unit $half-spacing-unit + 1;
+	color: #fff;
+	@include transition(all 0.5s ease);
+}
+.addtopic__button {
+	width: 100%;
+	font-size: 2em;
+	font-weight: 700;
+	text-align: center;
+	cursor: pointer;
+	text-shadow: 0 1px rgba(0,0,0,0.3), 0 -1px rgba(255,255,255,0.1);
+	.open & {
+		opacity: 0;
+	}
+}	
+.addtopic__input {
+	display: none; //Hide by default
+	
+	outline: none;
+	background: transparent;
+	border: 0;
+	height: 100%;
+	width: 0;
+	opacity: 0;
+	
+	.open & {
+		width: 100%;
+		opacity: 1;
+		display: block;
+	}
+}
+
+@include media-query(palm) {
+	.addtopic {
+		height: $base-spacing-unit * 2;
+		&.open {
+			right: 0;
+			width: 100%;
+		}
+	}
+}

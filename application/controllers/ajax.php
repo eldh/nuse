@@ -30,16 +30,17 @@ class Ajax extends CI_Controller {
 	}
 	
 	public function getarticle() {
-		echo json_encode($this->cache->model('Boilerpipe_api', 'getArticle', array($this->input->post('url')), 12000));
+		echo json_encode($this->cache->model('Boilerpipe_api', 'getArticle', array($this->input->post('url')), 120000));
 	}
 	public function mixedtweets($string, $page = 1) {
-		echo json_encode($this->cache->model('Twitter_api', 'getMixedTweets', array($string), 1200));
+		// echo json_encode($this->Twitter_api->getMixedTweets($string));
+		echo json_encode($this->cache->model('Twitter_api', 'getMixedTweets', array($string), 12000));
 	}
 	public function populartweets($string, $page = 1) {
-		echo json_encode($this->cache->model('Twitter_api', 'getPopularTweets', array($string), 1200));
+		echo json_encode($this->cache->model('Twitter_api', 'getPopularTweets', array($string), 12000));
 	}
 	public function recenttweets($string, $page = 1) {
-		echo json_encode($this->cache->model('Twitter_api', 'getRecentTweets', array($string), 1200));
+		echo json_encode($this->cache->model('Twitter_api', 'getRecentTweets', array($string), 12000));
 	}
 	public function refresh() {
 		$url = $this->input->post('url');
@@ -93,36 +94,49 @@ class Ajax extends CI_Controller {
 			'anders borg',
 			'israel',
 			'välkommen',
+			'Välkommen',
 			'nja',
 			'trevligt',
 			'tackar',
 			'tack',
 			'visst',
 			'precis',
-			'japp',
 			'såg',
 			'älskar',
 			'Älskar',
 			'årets',
 			'Årets',
 			'New British Boyband',
-			'Soccer Six Bolton'
+			'Soccer Six Bolton',
+			'arbetslösheten',
+			'japp',
+			'Japp',
+			'Verkligen',
+			'Har',
+			'Justin Bieber',
+			'Inte',
+			'Men',
+			'Twitter',
+			'twitter',
+			'och',
+			'Och'
 		);
-		$bt = $this->cache->model('Bloggar_api', 'getTopics', array(), 1200);
-		$gt = $this->cache->model('Twitter_api', 'getTrends', array(), 1200);
+		$blogTopics = $this->cache->model('Bloggar_api', 'getTopics', array(), 12000); // 2h
+		$twitterTopics[0] = $this->cache->model('Twitter_api', 'getTrends', array(), 1800); // 30 mins
 		$topics = array();
 		$j = 0;
 		while(sizeof($topics) < $max){
-			if(isset($gt[0]->trends[$j]) && 
-				!in_array($gt[0]->trends[$j]->name, $topics) && 
-				!in_array($gt[0]->trends[$j]->name, $blacklist)) {
-					$topics[] = $gt[0]->trends[$j]->name;
+			if(isset($twitterTopics->trends[$j]) && 
+				!in_array($twitterTopics->trends[$j]->name, $topics) && 
+				!in_array($twitterTopics->trends[$j]->name, $blacklist)) {
+					$topics[] = $twitterTopics->trends[$j]->name;
 			}
-			if(isset($bt[$j]) && !in_array($bt[$j], $topics) && !in_array($bt[$j], $blacklist)){
-				$topics[] = $bt[$j];
+			if(isset($blogTopics[$j]) && !in_array($blogTopics[$j], $topics) && !in_array($blogTopics[$j], $blacklist)){
+				$topics[] = $blogTopics[$j];
 			}
 			$j++;
 		}
+		// $topics = array('Blaj', 'struktur', 'Feminazi', 'Arbetslösheten');
 		echo json_encode($topics);
 	}
 	

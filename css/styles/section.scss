@@ -1,0 +1,33 @@
+.section--news {
+	.section__header, a.small {
+		color: #C2454E;
+	}
+}
+.section--tweets {
+	.section__header, a.small {
+		color: #4292ad;
+	}
+}
+.section--blogs {
+	.section__header, a.small {
+		color: #F77F45;
+	}
+}
+
+.section .black {
+	display: inline-block;
+}
+.section .small {
+	width: 100%;
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+
+
+@include media-query(palm) {
+	.section {
+		padding-left: 0;
+		margin-bottom: $base-spacing-unit;
+	}
+}

@@ -8,8 +8,8 @@
 	<meta name="description" content="Följ det svenska nyhetsflödet." />
 	<meta name="keywords" content="nyheter, mashup, twitter, svenska, sverige" />
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="<?=$base?>css/style.css" type="text/css" media="screen" />
+	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="<?=$base?>css/nuse.css" type="text/css" media="screen" />
 	<link rel="apple-touch-icon-precomposed" href="<?=$base?>img/icon.png" />
 	<link rel="shortcut icon" href="<?=$base?>img/favicon.ico">
 	<?php if($mobile){ ?>
@@ -19,23 +19,22 @@
 </head>
 <body class="js">
 	<header>
-		<div class="content content-center">
+		<div class="gw content content-center">
+			<div class="logo header__logo">nuse</div>
 			<nav id="nav" class="row">
-
-				<form id="addtopic"><input type="text" id="newtopic" placeholder="Lägg till ämne" /></form>
-			</nav>	
+				<form id="add-topic-form" class="addtopic"><span class="addtopic__button" id="add-topic-button">+</span><input type="text" id="add-topic-input" placeholder="Lägg till ämne" class="addtopic__input" /></form>
+			</nav>
 		</div>
 	</header>
-	<div id="wrapper" class="container-fluid">
-		<div id="sections" class="content content-center">
-		</div>
-	</div> <!-- #content, #wrapper -->
+	<div id="wrapper">
+		<div id="sections" class="content-center"></div>
+	</div>
 	<footer id="footer">
-		<div class="content content-center">
-			<div class="row" id="footercontent">
+		<div class="gw content-center">
+			<div class="g one-whole" id="footercontent">
 				<div class="logo"></div>
 				<p>&nbsp;</p>
-				<p>Nuse har skapats av <a href="http://www.digitalmagi.se/">Andreas Eldh</a></p>
+				<p>Nuse hittar vad som skrivits om intressanta nyhetsämnen. Tjänsten har skapats av <a href="http://www.eldh.co/">Andreas Eldh</a>.</p>
 			</div>
 		</div>
 	</footer>
