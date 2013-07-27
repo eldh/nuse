@@ -119,19 +119,28 @@ class Ajax extends CI_Controller {
 			'Twitter',
 			'twitter',
 			'och',
-			'Och'
+			'Och',
+			'Precis',
+			'ryssland',
+			'tyskland',
+			'Hur',
+			'INTE',
+			'gotland',
+			'apple'
 		);
-		$blogTopics = $this->cache->model('Bloggar_api', 'getTopics', array(), 12000); // 2h
-		$twitterTopics[0] = $this->cache->model('Twitter_api', 'getTrends', array(), 1800); // 30 mins
+		$blogTopics = $this->Bloggar_api->getTopics();
+		// $blogTopics = $this->cache->model('Bloggar_api', 'getTopics', array(), 120); // 2h
+		// $twitterTopics = $this->cache->model('Twitter_api', 'getTrends', array(), 1800); // 30 mins
+		// $twitterTopics = $this->Twitter_api->getTrends();
 		$topics = array();
 		$j = 0;
 		while(sizeof($topics) < $max){
-			if(isset($twitterTopics->trends[$j]) && 
-				!in_array($twitterTopics->trends[$j]->name, $topics) && 
-				!in_array($twitterTopics->trends[$j]->name, $blacklist)) {
-					$topics[] = $twitterTopics->trends[$j]->name;
-			}
-			if(isset($blogTopics[$j]) && !in_array($blogTopics[$j], $topics) && !in_array($blogTopics[$j], $blacklist)){
+			// if(isset($twitterTopics[0]->trends[$j]) && 
+			// 	!in_array($twitterTopics[0]->trends[$j]->name, $topics) && 
+			// 	!in_array($twitterTopics[0]->trends[$j]->name, $blacklist)) {
+			// 		$topics[] = $twitterTopics[0]->trends[$j]->name;
+			// }
+			if(isset($blogTopics[$j]) && !in_array($blogTopics[$j], $topics) && !in_array($blogTopics[$j], $blacklist)) {
 				$topics[] = $blogTopics[$j];
 			}
 			$j++;
